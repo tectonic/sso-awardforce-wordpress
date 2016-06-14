@@ -60,8 +60,8 @@ class AwardForceSSO {
         $response = $this->api->post('/user', [
             'form_params' => [
                 'email'     => $user->user_email,
-                'firstName' => $user->user_firstname,
-                'lastName'  => $user->user_lastname
+                'firstName' => $user->user_firstname ?: 'First',
+                'lastName'  => $user->user_lastname ?: 'Last'
             ]
         ]);
 

@@ -125,9 +125,7 @@ class AwardForceAPI {
      */
     private function handleException(Exception $e)
     {
-        if ($e->getCode() == 401) {
-            delete_option('award-force-access-token');
-        }
+        delete_option('award-force-access-token');
 
         error_log('AWARD FORCE API ERROR: ' . $e->getMessage());
 
