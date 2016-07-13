@@ -5,15 +5,24 @@
         <table class="form-table">
             <tr valign="top">
                 <th scope="row">API URL</th>
-                <td><input type="text" name="award-force-sso-api-url" value="<?php echo get_option( 'award-force-sso-api-url' ); ?>" size="100" /></td>
+                <td>
+                    <input type="text" name="award-force-sso-api-url" value="<?php echo get_option( 'award-force-sso-api-url' ); ?>" size="100" />
+                    <p class="description" id="tagline-description">https://api.awardsplatform.com</p>
+                </td>
             </tr>
             <tr valign="top">
                 <th scope="row">API Key</th>
-                <td><input type="text" name="award-force-sso-api-key" value="<?php echo get_option( 'award-force-sso-api-key' ); ?>" size="100" /></td>
+                <td>
+                    <input type="text" name="award-force-sso-api-key" value="<?php echo get_option( 'award-force-sso-api-key' ); ?>" size="100" />
+                    <p class="description" id="tagline-description">An Awards Manager can generate this key in Award Force (Settings > General > Integration)</p>
+                </td>
             </tr>
             <tr valign="top">
                 <th scope="row">Award Force installation URL</th>
-                <td><input type="text" name="award-force-sso-installation-url" value="<?php echo get_option( 'award-force-sso-installation-url' ); ?>" size="100" /></td>
+                <td>
+                    <input type="text" name="award-force-sso-installation-url" value="<?php echo get_option( 'award-force-sso-installation-url' ); ?>" size="100" />
+                    <p class="description" id="tagline-description">https://{account}.awardsplatform.com</p>
+                </td>
             </tr>
         </table>
         <p class="submit">
