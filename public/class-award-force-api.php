@@ -4,12 +4,12 @@ use GuzzleHttp\Client;
 
 class AwardForceAPI {
 
-    private $apiUrl;
+    private $apiUrl = 'https://api.awardsplatform.com';
+
     private $apiKey;
 
     public function __construct()
     {
-        $this->apiUrl = get_option('award-force-sso-api-url');
         $this->apiKey = get_option('award-force-sso-api-key');
     }
 
@@ -118,8 +118,8 @@ class AwardForceAPI {
     }
 
     /**
-     * Logs any potential errors and displays a message to the user. If the error is a '401 Unauthorized', the access
-     * token is cleared from the database.
+     * Logs any potential errors, clears the API access token from the database and displays an error message to
+     * the user.
      *
      * @param Exception $e
      */

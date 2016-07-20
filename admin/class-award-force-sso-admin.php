@@ -9,9 +9,8 @@ class AwardForceSSO_Admin {
 
     public function register_settings()
     {
-        register_setting( 'award-force-sso-settings-group', 'award-force-sso-api-url' );
+        register_setting( 'award-force-sso-settings-group', 'award-force-sso-installation-subdomain' );
         register_setting( 'award-force-sso-settings-group', 'award-force-sso-api-key' );
-        register_setting( 'award-force-sso-settings-group', 'award-force-sso-installation-url' );
     }
 
     public function display_settings_page()

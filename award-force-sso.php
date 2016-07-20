@@ -3,6 +3,7 @@
 Plugin Name: Award Force SSO
 Version: 1.0
 Author: Tectonic Digital
+Description: A WordPress plugin supporting single sign-on via Award Force
 */
 
 // If this file is called directly, abort.
