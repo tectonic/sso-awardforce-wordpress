@@ -48,17 +48,6 @@ class AwardForceAPI {
     }
 
     /**
-     * Extracts the Award Force account id from the API key.
-     *
-     * @return string
-     */
-    private function getAccountId()
-    {
-        return substr($this->apiKey, 0, strpos($this->apiKey, '-'));
-    }
-
-
-    /**
      * Retrieves the API access token from the database. If not available, requests it to the API.
      *
      * @return string
@@ -111,8 +100,7 @@ class AwardForceAPI {
             'base_uri' => $this->apiUrl,
             'headers' => [
                 'Accept' => 'application/vnd.Award Force.v1.0+json',
-                'Authorization' => 'Basic ' . $this->getAccessToken(),
-                'X-Account-Id' => $this->getAccountId(),
+                'Authorization' => 'Basic ' . $this->getAccessToken()
             ],
         ]);
     }
