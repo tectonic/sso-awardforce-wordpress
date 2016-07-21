@@ -24,7 +24,8 @@ class AwardForceAPI {
     public function get($uri, $options = [])
     {
         try {
-            return $this->getClient()->get($uri, $options);
+            $response = $this->getClient()->get($uri, $options);
+            return json_decode($response->getBody()->getContents());
         } catch (Exception $e) {
             $this->handleException($e);
         }
@@ -41,7 +42,8 @@ class AwardForceAPI {
     public function post($uri, $options = [])
     {
         try {
-            return $this->getClient()->post($uri, $options);
+            $response = $this->getClient()->post($uri, $options);
+            return json_decode($response->getBody()->getContents());
         } catch (Exception $e) {
             $this->handleException($e);
         }
@@ -82,7 +84,6 @@ class AwardForceAPI {
             ]);
 
             $response = $client->get('/access-token');
-
             return $response->getBody()->getContents();
         } catch (Exception $e) {
             $this->handleException($e);

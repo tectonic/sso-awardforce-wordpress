@@ -65,9 +65,7 @@ class AwardForceSSO {
             ]
         ]);
 
-        $body = json_decode($response->getBody()->getContents());
-
-        return $body->slug;
+        return $response->slug;
     }
 
     /**
@@ -80,8 +78,6 @@ class AwardForceSSO {
     {
         $response = $this->api->get('/user/' . $slug . '/auth-token');
 
-        $body = json_decode($response->getBody()->getContents());
-
-        return $body->auth_token;
+        return $response->auth_token;
     }
 }
