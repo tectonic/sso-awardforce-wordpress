@@ -15,9 +15,11 @@ This plugin has been developed for Award Force clients that wish to provide sing
 
 ```
 <?php
-if (is_user_logged_in()) {
-    echo '<a href="/awardforce/sso">Award Force</a>';
-}
+
+    if (is_user_logged_in()) {
+        echo '<a href="/awardforce/sso">Award Force</a>';
+    }
+
 ?>
 ```
 
