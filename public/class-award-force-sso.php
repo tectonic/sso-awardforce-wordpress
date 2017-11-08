@@ -3,12 +3,12 @@
 class AwardForceSSO {
 
     private $api;
-    private $installationSubdomain;
+    private $installationDomain;
 
     public function __construct(AwardForceAPI $api)
     {
         $this->api = $api;
-        $this->installationSubdomain = get_option('award-force-sso-installation-subdomain');
+        $this->installationDomain = get_option('award-force-sso-installation-domain');
     }
 
     /**
@@ -26,7 +26,7 @@ class AwardForceSSO {
 
         $token = $this->requestAuthToken($slug);
 
-        wp_redirect( "https://{$this->installationSubdomain}.awardsplatform.com/login?token={$token}" );
+        wp_redirect( "https://{$this->installationDomain}/login?token={$token}" );
         exit;
     }
 
