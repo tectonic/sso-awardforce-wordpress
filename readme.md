@@ -4,7 +4,7 @@ For Award Force clients with a website built with WordPress, this WordPress plug
 
 ## Installation
 
-- Download the [latest release](https://github.com/tectonic/sso-awardforce/releases) of the WordPress plug-in from this repository.
+- Download the [latest release](https://github.com/tectonic/sso-awardforce/releases) of the WordPress plugin from this repository.
 - Log in to your WordPress site's admin area and install the plugin `Plugins > Add new > Upload plugin`
 - Activate it!
 
