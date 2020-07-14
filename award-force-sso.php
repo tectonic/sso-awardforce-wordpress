@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Award Force SSO
-Version: 1.0
+Version: 1.1
 Author: Tectonic Digital
 Description: A WordPress plugin supporting single sign-on via Award Force
 */
