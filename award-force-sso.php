@@ -28,7 +28,7 @@ if ( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
  *----------------------------------------------------------------------------*/
 add_action('init', function () {
     if ( strstr( $_SERVER['REQUEST_URI'], '/awardforce/sso' ) ) {
-        $awardForce = new AwardForceSSO(new AwardForceAPI);
+        $awardForce = new AwardForceSSO(new AwardForceAPIV2);
         $awardForce->sso();
     }
 });

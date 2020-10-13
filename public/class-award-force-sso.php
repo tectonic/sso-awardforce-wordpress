@@ -5,7 +5,7 @@ class AwardForceSSO {
     private $api;
     private $installationDomain;
 
-    public function __construct(AwardForceAPI $api)
+    public function __construct(AwardForceAPIV2 $api)
     {
         $this->api = $api;
         $this->installationDomain = get_option('award-force-sso-installation-domain');
@@ -58,11 +58,9 @@ class AwardForceSSO {
     private function requestSlug(WP_User $user)
     {
         $response = $this->api->post('/user', [
-            'form_params' => [
-                'email'     => $user->user_email,
-                'firstName' => $user->user_firstname ?: 'First',
-                'lastName'  => $user->user_lastname ?: 'Last'
-            ]
+            'email'     => $user->user_email,
+            'first_name' => $user->user_firstname ?: 'First',
+            'last_name'  => $user->user_lastname ?: 'Last'
         ]);
 
         return $response->slug;
