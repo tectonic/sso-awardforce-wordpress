@@ -4,7 +4,7 @@ use GuzzleHttp\Client;
 
 class AwardForceAPIV2 {
 
-    private $apiUrl = 'https://api.awardforce.localaf.local';
+    private $apiUrl = 'https://api.staging.awardsplatform.com';
 
     private $apiKey;
 
