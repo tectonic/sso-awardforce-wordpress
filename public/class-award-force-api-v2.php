@@ -29,7 +29,7 @@ class AwardForceAPIV2 {
             $response = $this->getClient()->get($uri, $options);
             return json_decode($response->getBody()->getContents());
         } catch (Exception $e) {
-            $this->handleException($e, $options);
+            $this->handleException($e);
         }
     }
 
