@@ -57,13 +57,20 @@ class AwardForceSSO {
      */
     private function requestSlug(WP_User $user)
     {
-        $response = $this->api->post('/user', [
-            'email'     => $user->user_email,
-            'first_name' => $user->user_firstname ?: 'First',
-            'last_name'  => $user->user_lastname ?: 'Last'
-        ]);
-
-        return $response->slug;
+        try {
+            $response = $this->api->post('/user', [
+                'email' => $user->user_email,
+                'first_name' => $user->user_firstname ?: 'First',
+                'last_name' => $user->user_lastname ?: 'Last'
+            ]);
+            return $response->slug;
+        } catch (Exception $e) {
+            if ($e->getCode() === AwardForceAPIV2::$emailAlreadyExists) {
+                $response = $this->get("user/".$user->user_email);
+                return $response->slug;
+            }
+            $this->api->handleException($e);
+        }
     }
 
     /**

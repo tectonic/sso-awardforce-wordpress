@@ -47,6 +47,7 @@ class ComposerStaticInit6f84825f984c9089bd3d55862d8f6f3e
 
     public static $classMap = array (
         'AwardForceAPI' => __DIR__ . '/../..' . '/public/class-award-force-api.php',
+        'AwardForceAPIV2' => __DIR__ . '/../..' . '/public/class-award-force-api-v2.php',
         'AwardForceSSO' => __DIR__ . '/../..' . '/public/class-award-force-sso.php',
         'AwardForceSSO_Admin' => __DIR__ . '/../..' . '/admin/class-award-force-sso-admin.php',
     );

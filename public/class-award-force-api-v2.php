@@ -4,9 +4,11 @@ use GuzzleHttp\Client;
 
 class AwardForceAPIV2 {
 
-    private $apiUrl = 'https://api.awardsplatform.com';
+    private $apiUrl = 'https://api.awardforce.localaf.local';
 
     private $apiKey;
+
+    public static $emailAlreadyExists = 422;
 
     public function __construct()
     {
@@ -27,7 +29,7 @@ class AwardForceAPIV2 {
             $response = $this->getClient()->get($uri, $options);
             return json_decode($response->getBody()->getContents());
         } catch (Exception $e) {
-            $this->handleException($e);
+            $this->handleException($e, $options);
         }
     }
 
@@ -41,12 +43,8 @@ class AwardForceAPIV2 {
      */
     public function post($uri, $options = [])
     {
-        try {
-            $response = $this->getClient()->post($uri, $options);
-            return json_decode($response->getBody()->getContents());
-        } catch (Exception $e) {
-            $this->handleException($e);
-        }
+        $response = $this->getClient()->post($uri, ['json' => $options]);
+        return json_decode($response->getBody()->getContents());
     }
 
     /**
@@ -59,8 +57,8 @@ class AwardForceAPIV2 {
         return new Client([
             'base_uri' => $this->apiUrl,
             'headers' => [
-                'Accept' => 'application/vnd.Award Force.v1.0+json',
-                'x-api-key ' => $this->apiKey,
+                'Accept' => 'application/vnd.Award Force.v2.0+json',
+                'x-api-key' => $this->apiKey,
             ],
         ]);
     }
@@ -71,7 +69,7 @@ class AwardForceAPIV2 {
      *
      * @param Exception $e
      */
-    private function handleException(Exception $e)
+    public function handleException(Exception $e)
     {
         delete_option('award-force-access-token');
 
