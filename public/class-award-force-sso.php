@@ -61,12 +61,13 @@ class AwardForceSSO {
             $response = $this->api->post('/user', [
                 'email' => $user->user_email,
                 'first_name' => $user->user_firstname ?: 'First',
-                'last_name' => $user->user_lastname ?: 'Last'
+                'last_name' => $user->user_lastname ?: 'Last',
+                'password' => uniqid(),
             ]);
             return $response->slug;
         } catch (Exception $e) {
             if ($e->getCode() === AwardForceAPIV2::$emailAlreadyExists) {
-                $response = $this->get("user/".$user->user_email);
+                $response = $this->api->get("user/".$user->user_email);
                 return $response->slug;
             }
             $this->api->handleException($e);
