@@ -8,8 +8,6 @@ class AwardForceAPIV2 {
 
     private $apiKey;
 
-    public static $emailAlreadyExists = 422;
-
     public function __construct()
     {
         $this->apiKey = get_option('award-force-sso-api-key');
@@ -39,12 +37,15 @@ class AwardForceAPIV2 {
      * @param $uri
      * @param array $options
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return string
      */
     public function post($uri, $options = [])
     {
         $response = $this->getClient()->post($uri, ['json' => $options]);
-        return json_decode($response->getBody()->getContents());
+
+        if ($response->getStatusCode() == 201) {
+            return (object) ['slug' => substr((string) $response->getHeader('Location')[0], -8)];
+        }
     }
 
     /**

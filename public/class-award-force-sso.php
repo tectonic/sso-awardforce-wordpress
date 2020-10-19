@@ -38,6 +38,7 @@ class AwardForceSSO {
      */
     private function getSlug(WP_User $user)
     {
+        delete_user_meta($user->ID, 'award-force-slug');
         if ($slug = get_user_meta($user->ID, 'award-force-slug', true)) {
             return $slug;
         }
@@ -64,14 +65,21 @@ class AwardForceSSO {
                 'last_name' => $user->user_lastname ?: 'Last',
                 'password' => uniqid(),
             ]);
+
+            if (!$response) {
+                return $this->requestSlugByEmail($user->user_email);
+            }
+
             return $response->slug;
         } catch (Exception $e) {
-            if ($e->getCode() === AwardForceAPIV2::$emailAlreadyExists) {
-                $response = $this->api->get("user/".$user->user_email);
-                return $response->slug;
-            }
-            $this->api->handleException($e);
+            return $this->requestSlugByEmail($user->user_email);
         }
+    }
+
+    private function requestSlugByEmail($email)
+    {
+        $response = $this->api->get("user/" . $email);
+        return $response->slug;
     }
 
     /**
