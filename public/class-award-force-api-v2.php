@@ -41,10 +41,13 @@ class AwardForceAPIV2 {
      */
     public function post($uri, $options = [])
     {
-        $response = $this->getClient()->post($uri, ['json' => $options]);
-
-        if ($response->getStatusCode() == 201) {
-            return (object) ['slug' => substr((string) $response->getHeader('Location')[0], -8)];
+        try {
+            $response = $this->getClient()->post($uri, ['json' => $options]);
+            if ($response->getStatusCode() == 201) {
+                return (object)['slug' => substr((string)$response->getHeader('Location')[0], -8)];
+            }
+        } catch (Exception $e) {
+            $this->handleException($e);
         }
     }
 
@@ -61,6 +64,7 @@ class AwardForceAPIV2 {
                 'Accept' => 'application/vnd.Award Force.v2.0+json',
                 'x-api-key' => $this->apiKey,
             ],
+            'http_errors' => false,
         ]);
     }
 
