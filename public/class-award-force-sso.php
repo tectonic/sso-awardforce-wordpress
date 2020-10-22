@@ -57,7 +57,7 @@ class AwardForceSSO {
      */
     private function requestSlug(WP_User $user)
     {
-        $response = $this->requestSlugByEmail($user->user_email.$random);
+        $response = $this->requestSlugByEmail($user->user_email);
 
         if ($response->slug) {
             return $response->slug;
