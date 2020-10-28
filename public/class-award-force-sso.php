@@ -86,8 +86,15 @@ class AwardForceSSO {
      */
     private function requestAuthToken($slug)
     {
-        $response = $this->api->get('/user/' . $slug . '/auth-token');
+        $retries = 5;
+        while ($retries > 0) {
+            $response = $this->api->get('/user/' . $slug . '/auth-token');
+            if ($token = $response->auth_token) {
+                return $token;
+            }
 
-        return $response->auth_token;
+            sleep(1);
+            $retries--;
+        }
     }
 }
