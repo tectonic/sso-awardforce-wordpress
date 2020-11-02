@@ -17,7 +17,7 @@
                 <th scope="row">API Key</th>
                 <td>
                     <input type="text" name="award-force-sso-api-key" value="<?php echo get_option( 'award-force-sso-api-key' ); ?>" size="58" />
-                    <p class="description" id="tagline-description">An Awards Manager can generate this key in Award Force (Settings > General > Integration)</p>
+                    <p class="description" id="tagline-description">An Awards Manager can generate this key in Award Force (Settings > Developers > API keys)</p>
                 </td>
             </tr>
         </table>

@@ -5,7 +5,7 @@ class AwardForceSSO {
     private $api;
     private $installationDomain;
 
-    public function __construct(AwardForceAPI $api)
+    public function __construct(AwardForceAPIV2 $api)
     {
         $this->api = $api;
         $this->installationDomain = get_option('award-force-sso-installation-domain');
@@ -57,15 +57,25 @@ class AwardForceSSO {
      */
     private function requestSlug(WP_User $user)
     {
+        $response = $this->requestSlugByEmail($user->user_email);
+
+        if ($response->slug) {
+            return $response->slug;
+        }
+
         $response = $this->api->post('/user', [
-            'form_params' => [
-                'email'     => $user->user_email,
-                'firstName' => $user->user_firstname ?: 'First',
-                'lastName'  => $user->user_lastname ?: 'Last'
-            ]
+            'email' => $user->user_email,
+            'first_name' => $user->user_firstname ?: 'First',
+            'last_name' => $user->user_lastname ?: 'Last',
+            'password' => uniqid(),
         ]);
 
         return $response->slug;
+    }
+
+    private function requestSlugByEmail($email)
+    {
+        return $this->api->get("user/" . $email);
     }
 
     /**
@@ -76,8 +86,15 @@ class AwardForceSSO {
      */
     private function requestAuthToken($slug)
     {
-        $response = $this->api->get('/user/' . $slug . '/auth-token');
+        $retries = 5;
+        while ($retries > 0) {
+            $response = $this->api->get('/user/' . $slug . '/auth-token');
+            if ($token = $response->auth_token) {
+                return $token;
+            }
 
-        return $response->auth_token;
+            sleep(1);
+            $retries--;
+        }
     }
 }
