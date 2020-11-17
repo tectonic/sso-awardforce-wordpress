@@ -1,5 +1,11 @@
 # Award Force - WordPress Single Sign-On (SSO)
+- Contributors: Alejandro, Nico
+- Tags: Award Force, entries, awards, recognition, submission, competition
+- Tested up to: 5.5.3
+- Stable tag: trunk
+- License: GPLv2 or late
 
+## Description
 For Award Force clients with a website built with WordPress, this WordPress plugin allows your registered users to automatically log in to Award Force with their WordPress user account. An Award Force user account is automatically created for them.
 
 License: GPLv2 or late
