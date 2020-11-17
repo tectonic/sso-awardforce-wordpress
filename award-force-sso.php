@@ -1,9 +1,13 @@
 <?php
 /*
-Plugin Name: Award Force SSO
-Version: 1.1
-Author: Tectonic Digital
-Description: A WordPress plugin supporting single sign-on via Award Force
+ * Plugin Name: Award Force SSO
+ * Plugin URI: https://www.awardforce.com/
+ * Description: A WordPress plugin supporting single sign-on via Award Force
+ * Author: Creative Force
+ * Version: 1.2
+ * Author URI: https://www.creativeforce.team/
+ * License: GPL2+
+ * Text Domain: award-force-sso
 */
 
 // If this file is called directly, abort.
