@@ -14,7 +14,7 @@ class AwardForceAPIV2 {
     }
 
     /**
-     * Sends a GET request to the Award Force API.log
+     * Sends a GET request to the Award Force API
      *
      * @param $uri
      * @param array $options
