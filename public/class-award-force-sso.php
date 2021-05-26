@@ -24,7 +24,7 @@ class AwardForceSSO {
 
         $slug = $this->getSlug(wp_get_current_user());
 
-        $token = $this->requestAuthToken($slug);
+        $token = $this->requestAuthToken($slug, wp_get_current_user());
 
         wp_redirect( "https://{$this->installationDomain}/login?token={$token}" );
         exit;
@@ -34,11 +34,12 @@ class AwardForceSSO {
      * Returns the Award Force slug of a user.
      *
      * @param WP_User $user
+     * @param bool $forceRequest
      * @return mixed
      */
-    private function getSlug(WP_User $user)
+    private function getSlug(WP_User $user, $forceRequest = false)
     {
-        if ($slug = get_user_meta($user->ID, 'award-force-slug', true)) {
+        if (!$forceRequest && $slug = get_user_meta($user->ID, 'award-force-slug', true)) {
             return $slug;
         }
 
@@ -84,17 +85,33 @@ class AwardForceSSO {
      * @param $slug
      * @return mixed
      */
-    private function requestAuthToken($slug)
+    private function requestAuthToken($slug, WP_User $user)
     {
+        if ($token = $this->sendAuthTokenRequest($slug)) {
+            return $token;
+        }
+
+        $slug = $this->getSlug($user, true);
         $retries = 5;
+
         while ($retries > 0) {
-            $response = $this->api->get('/user/' . $slug . '/auth-token');
-            if ($token = $response->auth_token) {
+            if ($token = $this->sendAuthTokenRequest($slug)) {
                 return $token;
             }
-
             sleep(1);
             $retries--;
         }
+
+        if (!$token) {
+            $this->api->handleException(new Exception('There was an issue requesting a token to Award Force'));
+        }
+
+        return $token;
+    }
+
+    private function sendAuthTokenRequest($slug)
+    {
+        $response = $this->api->get('/user/' . $slug . '/auth-token');
+        return $response->auth_token;
     }
 }
