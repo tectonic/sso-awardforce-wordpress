@@ -59,11 +59,12 @@ class AwardForceSSO {
     private function requestSlug(WP_User $user)
     {
         $response = $this->requestSlugByEmail($user->user_email);
-        if ($response->status_code != 200) {
+
+        if (isset($response->status_code) && $response->status_code != 200) {
             $this->api->handleException(new Exception($response->message));
         }
 
-        if ($response->slug) {
+        if (isset($response->slug)) {
             return $response->slug;
         }
 
@@ -74,11 +75,11 @@ class AwardForceSSO {
             'password' => uniqid(),
         ]);
 
-        if ($response->status_code != 201) {
-            $this->api->handleException(new Exception($response->message));
+        if (isset($response->slug)) {
+            return $response->slug;
         }
 
-        return $response->slug;
+        $this->api->handleException(new Exception($response->message ?: 'There was an error creating the user.'));
     }
 
     private function requestSlugByEmail($email)
@@ -113,7 +114,7 @@ class AwardForceSSO {
         }
 
         if (!$token) {
-            $this->api->handleException(new Exception('There was an issue requesting a token to Award Force'));
+            $this->api->handleException(new Exception('There was an error requesting a token to Award Force'));
         }
 
         return $token;
