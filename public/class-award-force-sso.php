@@ -59,6 +59,9 @@ class AwardForceSSO {
     private function requestSlug(WP_User $user)
     {
         $response = $this->requestSlugByEmail($user->user_email);
+        if ($response->status_code != 200) {
+            $this->api->handleException(new Exception($response->message));
+        }
 
         if ($response->slug) {
             return $response->slug;
@@ -70,6 +73,10 @@ class AwardForceSSO {
             'last_name' => $user->user_lastname ?: 'Last',
             'password' => uniqid(),
         ]);
+
+        if ($response->status_code != 201) {
+            $this->api->handleException(new Exception($response->message));
+        }
 
         return $response->slug;
     }
@@ -87,7 +94,7 @@ class AwardForceSSO {
      */
     private function requestAuthToken($slug, WP_User $user)
     {
-        if ($token = $this->sendAuthTokenRequest($slug)) {
+        if ($token = $this->sendAuthTokenRequest($slug)->auth_token) {
             return $token;
         }
 
@@ -95,8 +102,11 @@ class AwardForceSSO {
         $retries = 5;
 
         while ($retries > 0) {
-            if ($token = $this->sendAuthTokenRequest($slug)) {
-                return $token;
+            if ($response = $this->sendAuthTokenRequest($slug)) {
+                if ($token = $response->auth_token) {
+                    return $token;
+                }
+                $this->api->handleException(new Exception($response->message));
             }
             sleep(1);
             $retries--;
@@ -111,7 +121,6 @@ class AwardForceSSO {
 
     private function sendAuthTokenRequest($slug)
     {
-        $response = $this->api->get('/user/' . $slug . '/auth-token');
-        return $response->auth_token;
+        return $this->api->get('/user/' . $slug . '/auth-token');
     }
 }
