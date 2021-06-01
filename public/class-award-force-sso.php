@@ -60,9 +60,9 @@ class AwardForceSSO {
     {
         $response = $this->requestSlugByEmail($user->user_email);
 
-        if (isset($response->status_code) && $response->status_code != 200) {
-            $this->api->handleException(new Exception($response->message));
-        }
+//        if (isset($response->status_code) && $response->status_code != 200) {
+//            $this->api->handleException(new Exception($response->message));
+//        }
 
         if (isset($response->slug)) {
             return $response->slug;
