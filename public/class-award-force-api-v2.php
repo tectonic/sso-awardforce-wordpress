@@ -4,7 +4,7 @@ use GuzzleHttp\Client;
 
 class AwardForceAPIV2 {
 
-    private $apiUrl = 'https://api.staging.awardsplatform.com';
+    private $apiUrl = 'https://api.cr4ce.com';
 
     private $apiKey;
 
@@ -61,7 +61,7 @@ class AwardForceAPIV2 {
         return new Client([
             'base_uri' => $this->apiUrl,
             'headers' => [
-                'Accept' => 'application/vnd.Award Force.v2.0+json',
+                'Accept' => 'application/vnd.Creative Force.v2.0+json',
                 'x-api-key' => $this->apiKey,
             ],
             'http_errors' => false,
