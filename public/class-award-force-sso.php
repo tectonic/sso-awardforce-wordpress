@@ -24,7 +24,7 @@ class AwardForceSSO {
 
         $slug = $this->getSlug(wp_get_current_user());
 
-        $token = $this->requestAuthToken($slug);
+        $token = $this->requestAuthToken($slug, wp_get_current_user());
 
         wp_redirect( "https://{$this->installationDomain}/login?token={$token}" );
         exit;
@@ -34,11 +34,12 @@ class AwardForceSSO {
      * Returns the Award Force slug of a user.
      *
      * @param WP_User $user
+     * @param bool $forceRequest
      * @return mixed
      */
-    private function getSlug(WP_User $user)
+    private function getSlug(WP_User $user, $forceRequest = false)
     {
-        if ($slug = get_user_meta($user->ID, 'award-force-slug', true)) {
+        if (!$forceRequest && $slug = get_user_meta($user->ID, 'award-force-slug', true)) {
             return $slug;
         }
 
@@ -59,18 +60,27 @@ class AwardForceSSO {
     {
         $response = $this->requestSlugByEmail($user->user_email);
 
-        if ($response->slug) {
+        if (isset($response->slug)) {
             return $response->slug;
         }
 
-        $response = $this->api->post('/user', [
+        $response = $this->createUser($user);
+
+        if (!isset($response->slug)) {
+            $this->api->handleException(new Exception($response->message ?: 'There was an error creating the user.'));
+        }
+
+        return $response->slug;
+    }
+
+    private function createUser($user)
+    {
+        return $this->api->post('/user', [
             'email' => $user->user_email,
             'first_name' => $user->user_firstname ?: 'First',
             'last_name' => $user->user_lastname ?: 'Last',
             'password' => uniqid(),
         ]);
-
-        return $response->slug;
     }
 
     private function requestSlugByEmail($email)
@@ -84,17 +94,35 @@ class AwardForceSSO {
      * @param $slug
      * @return mixed
      */
-    private function requestAuthToken($slug)
+    private function requestAuthToken($slug, WP_User $user)
     {
-        $retries = 5;
-        while ($retries > 0) {
-            $response = $this->api->get('/user/' . $slug . '/auth-token');
-            if ($token = $response->auth_token) {
-                return $token;
-            }
+        if ($token = $this->sendAuthTokenRequest($slug)->auth_token) {
+            return $token;
+        }
 
+        $slug = $this->getSlug($user, true);
+        $retries = 5;
+
+        while ($retries > 0) {
+            if ($response = $this->sendAuthTokenRequest($slug)) {
+                if ($token = $response->auth_token) {
+                    return $token;
+                }
+                $this->api->handleException(new Exception($response->message));
+            }
             sleep(1);
             $retries--;
         }
+
+        if (!$token) {
+            $this->api->handleException(new Exception('There was an error requesting a token from Award Force'));
+        }
+
+        return $token;
+    }
+
+    private function sendAuthTokenRequest($slug)
+    {
+        return $this->api->get('/user/' . $slug . '/auth-token');
     }
 }
