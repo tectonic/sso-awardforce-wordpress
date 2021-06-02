@@ -64,18 +64,23 @@ class AwardForceSSO {
             return $response->slug;
         }
 
-        $response = $this->api->post('/user', [
+        $response = $this->createUser($user);
+
+        if (!isset($response->slug)) {
+            $this->api->handleException(new Exception($response->message ?: 'There was an error creating the user.'));
+        }
+
+        return $response->slug;
+    }
+
+    private function createUser($user)
+    {
+        return $this->api->post('/user', [
             'email' => $user->user_email,
             'first_name' => $user->user_firstname ?: 'First',
             'last_name' => $user->user_lastname ?: 'Last',
             'password' => uniqid(),
         ]);
-
-        if (isset($response->slug)) {
-            return $response->slug;
-        }
-
-        $this->api->handleException(new Exception($response->message ?: 'There was an error creating the user.'));
     }
 
     private function requestSlugByEmail($email)
@@ -110,7 +115,7 @@ class AwardForceSSO {
         }
 
         if (!$token) {
-            $this->api->handleException(new Exception('There was an error requesting a token to Award Force'));
+            $this->api->handleException(new Exception('There was an error requesting a token from Award Force'));
         }
 
         return $token;
