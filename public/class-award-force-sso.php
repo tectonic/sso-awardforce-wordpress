@@ -79,7 +79,7 @@ class AwardForceSSO {
             'email' => $user->user_email,
             'first_name' => $user->user_firstname ?: 'First',
             'last_name' => $user->user_lastname ?: 'Last',
-            'password' => uniqid(),
+            'password' => $this->generateRandomPassword(),
         ]);
     }
 
@@ -124,5 +124,22 @@ class AwardForceSSO {
     private function sendAuthTokenRequest($slug)
     {
         return $this->api->get('/user/' . $slug . '/auth-token');
+    }
+
+    private function generateRandomPassword()
+    {
+        $digits = array_flip(range('0', '9'));
+        $lowercase = array_flip(range('a', 'z'));
+        $uppercase = array_flip(range('A', 'Z'));
+        $special = array_flip(str_split('!@#$%^&*()_+=-}{[}]\|;:<>?/'));
+        $combined = array_merge($digits, $lowercase, $uppercase, $special);
+
+        return str_shuffle(
+            array_rand($digits) .
+            array_rand($lowercase) .
+            array_rand($uppercase) .
+            array_rand($special) .
+            implode(array_rand($combined, rand(12, 16)))
+        );
     }
 }
