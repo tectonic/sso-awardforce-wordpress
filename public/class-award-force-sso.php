@@ -104,7 +104,9 @@ class AwardForceSSO {
         $retries = 5;
 
         while ($retries > 0) {
-            if ($response = $this->sendAuthTokenRequest($slug)) {
+            $response = $this->sendAuthTokenRequest($slug);
+            if ($response && $response->status_code !== 422) {
+
                 if ($token = $response->auth_token) {
                     return $token;
                 }
