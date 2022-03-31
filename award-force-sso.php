@@ -4,7 +4,7 @@
  * Plugin URI: https://www.awardforce.com/
  * Description: A WordPress plugin supporting single sign-on via Award Force
  * Author: Creative Force
- * Version: 1.4
+ * Version: 1.5
  * Author URI: https://www.creativeforce.team/
  * License: GPL2+
  * Text Domain: award-force-sso
