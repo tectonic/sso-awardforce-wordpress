@@ -8,7 +8,7 @@ class AwardForceSSO {
     public function __construct(AwardForceAPIV2 $api)
     {
         $this->api = $api;
-        $this->installationDomain = get_option('award-force-sso-installation-domain');
+        $this->installationDomain = trim(get_option('award-force-sso-installation-domain'), '/');
     }
 
     /**
