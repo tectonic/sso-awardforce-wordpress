@@ -1,6 +1,6 @@
 {
   "require": {
-    "guzzlehttp/guzzle": "7.4.2"
+    "guzzlehttp/guzzle": "7.4.3"
   },
 
   "autoload": {
