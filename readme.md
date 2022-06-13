@@ -1,7 +1,8 @@
 # Award Force - WordPress Single Sign-On (SSO)
 - Contributors: acarpio89, nicocucuzza
 - Tags: Award Force, entries, awards, recognition, submission, competition
-- Tested up to: 5.9.3
+- Tested up to: 6.0
+- Requires PHP: 8.0
 - Stable tag: trunk
 - License: GPLv2 or late
 
