@@ -10,4 +10,5 @@ return array(
     'AwardForceAPIV2' => $baseDir . '/public/class-award-force-api-v2.php',
     'AwardForceSSO' => $baseDir . '/public/class-award-force-sso.php',
     'AwardForceSSO_Admin' => $baseDir . '/admin/class-award-force-sso-admin.php',
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
 );
